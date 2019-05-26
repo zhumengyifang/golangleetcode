@@ -11,11 +11,14 @@ func testSortList() {
 	p.Next.Next = &Model.ListNode{Val: 1}
 	p.Next.Next.Next = &Model.ListNode{Val: 3}
 
-	result := SortList(&p)
+	result := SortListNode(&p)
 	fmt.Print(result)
 }
 
-func SortList(head *Model.ListNode) *Model.ListNode {
+/**
+排序链表
+*/
+func SortListNode(head *Model.ListNode) *Model.ListNode {
 	if head == nil {
 		return nil
 	}
@@ -59,4 +62,41 @@ func merge(l *Model.ListNode, r *Model.ListNode) *Model.ListNode {
 		cur.Next = r
 	}
 	return dummyHead.Next
+}
+
+/**
+回文链表
+*/
+func isPalindrome(head *Model.ListNode) bool {
+	if head == nil || head.Next == nil {
+		return true
+	}
+	fast := head //快指针
+	slow := head //慢指针
+
+	for ; fast.Next != nil && fast.Next.Next != nil; {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+
+	slow = reverse(slow.Next)
+
+	for ; slow != nil; {
+		if head.Val != slow.Val {
+			return false
+		}
+		head = head.Next
+		slow = slow.Next
+	}
+	return true
+}
+
+func reverse(node *Model.ListNode) *Model.ListNode {
+	if node.Next == nil {
+		return node
+	}
+	newHead := reverse(node.Next)
+	node.Next.Next = node
+	node.Next = nil
+	return newHead
 }
