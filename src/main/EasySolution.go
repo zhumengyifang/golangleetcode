@@ -91,6 +91,9 @@ func isPalindrome(head *Model.ListNode) bool {
 	return true
 }
 
+/**
+反转链表
+*/
 func reverse(node *Model.ListNode) *Model.ListNode {
 	if node.Next == nil {
 		return node
@@ -99,4 +102,44 @@ func reverse(node *Model.ListNode) *Model.ListNode {
 	node.Next.Next = node
 	node.Next = nil
 	return newHead
+}
+
+/**
+环型链表
+ */
+func detectCycle(head *Model.ListNode) *Model.ListNode {
+	slow := head
+	fast := head
+	isCycle := false
+	for ; fast != nil && fast.Next != nil; {
+		slow = slow.Next
+		fast = fast.Next.Next
+		if slow == fast {
+			isCycle = true
+			break
+		}
+	}
+
+	if isCycle {
+		cycleSize := 1
+		fast = fast.Next
+		for ; slow != fast; {
+			fast = fast.Next
+			cycleSize++
+		}
+
+		slow1 := head
+		fast1 := head
+		for ; cycleSize-1 > 0; {
+			fast1 = fast1.Next
+			cycleSize--
+		}
+
+		for ; fast1.Next != slow1; {
+			slow1 = slow1.Next;
+			fast1 = fast1.Next;
+		}
+		return slow1
+	}
+	return nil
 }
