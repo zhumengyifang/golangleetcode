@@ -111,6 +111,7 @@ func detectCycle(head *Model.ListNode) *Model.ListNode {
 	slow := head
 	fast := head
 	isCycle := false
+	//先用快慢指针判断是否是环形
 	for ; fast != nil && fast.Next != nil; {
 		slow = slow.Next
 		fast = fast.Next.Next
@@ -121,20 +122,21 @@ func detectCycle(head *Model.ListNode) *Model.ListNode {
 	}
 
 	if isCycle {
+	    //慢指针不动，利用快指针找出环的大小
 		cycleSize := 1
 		fast = fast.Next
 		for ; slow != fast; {
 			fast = fast.Next
 			cycleSize++
 		}
-
+        //根据环的大小，利用双指针找出环形入口，前后指针间隔为环的大小
 		slow1 := head
 		fast1 := head
 		for ; cycleSize-1 > 0; {
 			fast1 = fast1.Next
 			cycleSize--
 		}
-
+        //找入口的关键判断条件
 		for ; fast1.Next != slow1; {
 			slow1 = slow1.Next;
 			fast1 = fast1.Next;
@@ -142,4 +144,16 @@ func detectCycle(head *Model.ListNode) *Model.ListNode {
 		return slow1
 	}
 	return nil
+}
+
+/**
+合并K个链表
+ */
+func mergeKLists(lists []*ListNode) *ListNode {
+if lists==nil{
+return nil
+}
+   for i:=0;i<lists.size();i++{
+   merge()
+   }
 }
