@@ -106,7 +106,7 @@ func reverse(node *Model.ListNode) *Model.ListNode {
 
 /**
 环型链表
- */
+*/
 func detectCycle(head *Model.ListNode) *Model.ListNode {
 	slow := head
 	fast := head
@@ -122,24 +122,24 @@ func detectCycle(head *Model.ListNode) *Model.ListNode {
 	}
 
 	if isCycle {
-	    //慢指针不动，利用快指针找出环的大小
+		//慢指针不动，利用快指针找出环的大小
 		cycleSize := 1
 		fast = fast.Next
 		for ; slow != fast; {
 			fast = fast.Next
 			cycleSize++
 		}
-        //根据环的大小，利用双指针找出环形入口，前后指针间隔为环的大小
+		//根据环的大小，利用双指针找出环形入口，前后指针间隔为环的大小
 		slow1 := head
 		fast1 := head
 		for ; cycleSize-1 > 0; {
 			fast1 = fast1.Next
 			cycleSize--
 		}
-        //找入口的关键判断条件
+		//找入口的关键判断条件
 		for ; fast1.Next != slow1; {
-			slow1 = slow1.Next;
-			fast1 = fast1.Next;
+			slow1 = slow1.Next
+			fast1 = fast1.Next
 		}
 		return slow1
 	}
@@ -148,12 +148,14 @@ func detectCycle(head *Model.ListNode) *Model.ListNode {
 
 /**
 合并K个链表
- */
-func mergeKLists(lists []*ListNode) *ListNode {
-if lists==nil{
-return nil
-}
-   for i:=0;i<lists.size();i++{
-   merge()
-   }
+*/
+func mergeKLists(lists []*Model.ListNode) *Model.ListNode {
+	if lists == nil {
+		return nil
+	}
+	var mergeListNode *Model.ListNode
+	for i := 0; i < len(lists); i++ {
+		mergeListNode = merge(mergeListNode, lists[i])
+	}
+	return mergeListNode
 }
