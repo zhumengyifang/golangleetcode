@@ -1,8 +1,10 @@
 package main
 
 import (
+	"container/list"
 	"fmt"
 	"goleetcode/src/main/Model"
+	"strings"
 )
 
 func testSortList() {
@@ -158,4 +160,119 @@ func mergeKLists(lists []*Model.ListNode) *Model.ListNode {
 		mergeListNode = merge(mergeListNode, lists[i])
 	}
 	return mergeListNode
+}
+
+/**
+两数之和
+*/
+func twoSum(nums []int, target int) []int {
+	mapObj := map[int]int{}
+	for i := range nums {
+		x := target - nums[i]
+		n, ok := mapObj[x]
+		if ok {
+			return []int{n, i}
+		} else {
+			mapObj[nums[i]] = i
+		}
+	}
+	return nil
+}
+
+/**
+有效的括号
+*/
+func isValid(s string) bool {
+	m := map[string]string{
+		")": "(",
+		"]": "[",
+		"}": "{",
+	}
+
+	l := list.New()
+	for i := 0; i < len(s); i++ {
+		msg := s[i : i+1]
+		if msg == "(" || msg == "[" || msg == "{" {
+			l.PushBack(msg)
+		}
+
+		if msg == ")" || msg == "]" || msg == "}" {
+			if l.Len() == 0 {
+				return false
+			}
+			s := l.Back()
+			if s.Value == m[msg] {
+				l.Remove(s)
+			} else {
+				return false
+			}
+		}
+	}
+
+	if l.Len() == 0 {
+		return true
+	} else {
+		return true
+	}
+}
+
+/**
+合并两个有序链表
+*/
+func mergeTwoLists(l1 *Model.ListNode, l2 *Model.ListNode) *Model.ListNode {
+	result := &Model.ListNode{Val: 0}
+	result2 := result
+	for ; l1 != nil || l2 != nil; {
+		if l1 == nil {
+			result2.Next = l2
+			l2 = l2.Next
+		} else if l2 == nil {
+			result2.Next = l1
+			l1 = l1.Next
+		} else if l1.Val < l2.Val {
+			result2.Next = l1
+			l1 = l1.Next
+		} else {
+			result2.Next = l2
+			l2 = l2.Next
+		}
+		result2 = result2.Next
+	}
+	return result.Next
+}
+
+/**
+单词规律
+*/
+func wordPattern(pattern string, str string) bool {
+	array := strings.Fields(str)
+	if len(array) != len(pattern) {
+		return false
+	}
+	hash := make(map[byte]string)
+	hash2 := make(map[string]byte)
+	for i := 0; i < len(pattern); i++ {
+		v, ok := hash[pattern[i]]
+		v2, ok2 := hash2[array[i]]
+		if ok && v != array[i] || ok2 && v2 != pattern[i] {
+			return false
+		} else {
+			hash[pattern[i]] = array[i]
+			hash2[array[i]] = pattern[i]
+		}
+	}
+	return true
+}
+
+/**
+移动零
+*/
+func moveZeroes(nums []int) {
+	for i := len(nums) - 1; i >= 0; i-- {
+		if nums[i] == 0 {
+			for j := i; j < len(nums)-1 && nums[j+1] != 0; j++ {
+				nums[j], nums[j+1] = nums[j+1], nums[j]
+			}
+		}
+	}
 }
